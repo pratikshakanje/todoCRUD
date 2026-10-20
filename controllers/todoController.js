@@ -1,32 +1,7 @@
-const cl = console.log;
-
-let todo = [
-    {
-        "id": "1",
-        "todoItem": "HTML"
-    },
-    {
-        "id": "2",
-        "todoItem": "CSS"
-    },
-    {
-        "id": "3",
-        "todoItem": "JavaScript"
-    },
-    {
-        "id": "4",
-        "todoItem": "Angular"
-    }
-]
-
-const express = require("express")
-
-const app = express();
-
-app.use(express.json())
+const todos = require("../data/todo.js")
 
 //fetch all data
-app.get("/api/todo", (req, res) =>{
+const sendTodos = (req, res) =>{
     try{
         res.status(200).json({
             success: true,
@@ -41,10 +16,10 @@ app.get("/api/todo", (req, res) =>{
             error: err.message
         })
     }
-})
+}
 
-//fetch single todo
-app.get("/api/todo/:id", (req, res) => {
+//fetch single data
+const sendTodoById = (req, res) => {
     try{
         const id = req.params.id;
 
@@ -70,10 +45,10 @@ app.get("/api/todo/:id", (req, res) => {
             error: err.message
         })
     }
-})
+}
 
-//create
-app.post("/api/todo", (req, res) => {
+//create data
+const createTodo = (req, res) => {
     try{
         let newTodo = {
             id: Date.now().toString(),
@@ -95,10 +70,11 @@ app.post("/api/todo", (req, res) => {
             error: err.message
         })
     }
-})
+}
+
 
 //update
-app.patch("/api/todo/:id", (req, res) => {
+const updateTodo = (req, res) => {
     try{
         let todos = todo.find(t => t.id == req.params.id);
 
@@ -123,11 +99,10 @@ app.patch("/api/todo/:id", (req, res) => {
             error: err.message
         })
     }
-})
-
+}
 
 //delete
-app.delete("/api/todo/:id", (req, res) =>{
+const deleteTodo = (req, res) =>{
     try{
         let deleteId = req.params.id;
         let getInd = todo.findIndex(t => t.id == deleteId)
@@ -154,9 +129,12 @@ app.delete("/api/todo/:id", (req, res) =>{
             error: err.message
         })
     }
-})
+}
 
-
-app.listen(3000, ()=> {
-    cl("Todo data fetched successfully")
-})
+module.exports = {
+    sendTodos,
+    sendTodoById,
+    createTodo,
+    updateTodo,
+    deleteTodo,
+}
