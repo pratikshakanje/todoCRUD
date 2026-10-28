@@ -5,7 +5,7 @@ const sendTodos = (req, res) =>{
     try{
         res.status(200).json({
             success: true,
-            body: todo,
+            body: todos,
             message: "Todo fetched successfully"
         })
     }
@@ -23,7 +23,7 @@ const sendTodoById = (req, res) => {
     try{
         const id = req.params.id;
 
-        const todos = todo.find(t => t.id === id)
+        const todo = todos.find(t => t.id === id)
 
         if(!todo){
             return res.status(404).json({
@@ -34,7 +34,7 @@ const sendTodoById = (req, res) => {
 
         res.status(200).json({
             success: true,
-            body: todos,
+            body: todo,
             message: "Todo fetched successfully"
         })
     }
@@ -55,7 +55,7 @@ const createTodo = (req, res) => {
             todoItem: req.body.todoItem,
         }
 
-        todo.push(newTodo)
+        todos.push(newTodo)
 
         res.status(201).json({
             success: true,
@@ -76,19 +76,20 @@ const createTodo = (req, res) => {
 //update
 const updateTodo = (req, res) => {
     try{
-        let todos = todo.find(t => t.id == req.params.id);
+        const id = req.params.id;
+        let todo = todos.find(t => t.id === id);
 
-        if(!todos){
+        if(!todo){
             return res.status(404).json({
                 success: false,
                 message: "Todo not found"
             })
         }
-        todos.todoItem = req.body.todoItem;
+        todo.todoItem = req.body.todoItem;
 
         res.status(200).json({
             success: true,
-            body: todos,
+            body: todo,
             message: "Todo updated successfully",
         })
     }
@@ -105,16 +106,16 @@ const updateTodo = (req, res) => {
 const deleteTodo = (req, res) =>{
     try{
         let deleteId = req.params.id;
-        let getInd = todo.findIndex(t => t.id == deleteId)
+        let getInd = todos.findIndex(t => t.id === deleteId)
 
-        if(!getInd === -1){
+        if(getInd === -1){
             return res.status(404).json({
                 success: false,
                 message: "Todo not found"
             })
         }
 
-        let deleteTodo = todo.splice(getInd, 1);
+        let deleteTodo = todos.splice(getInd, 1);
 
         res.status(200).json({
             success: true,

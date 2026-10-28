@@ -8,6 +8,6 @@ const app = express();
 
 app.use(express.json())
 
-app.use("/contollersapi/todo", router)
+app.use("/controllersapi/todo", router)
 
 module.exports = app
